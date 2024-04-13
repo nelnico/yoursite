@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { dbProvinces, getValueById } from "@/lib/constants/db-constants";
+import { dbProvinces, getValueById } from "@/lib/constants";
 const AdminProvidersPage = async () => {
   const data = await db.serviceProvider.findMany();
 

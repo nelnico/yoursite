@@ -4,6 +4,10 @@ import { LoginSchema, LoginFormData } from "@/schemas/auth-schemas";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
+import { generateVerificationToken } from "@/lib/tokens";
+import { getUserByEmail } from "@/data/user";
+import { sendVerificationEmail } from "@/lib/mail";
+
 export const login = async (values: LoginFormData) => {
   const validatedFields = LoginSchema.safeParse(values);
 
@@ -14,6 +18,19 @@ export const login = async (values: LoginFormData) => {
   }
 
   const { email, password } = validatedFields.data;
+
+  const existingUser = await getUserByEmail(email);
+  if (!existingUser || !existingUser?.email || !existingUser?.password) {
+    return { error: "Email does not exists!" };
+  }
+
+  if (!existingUser.emailVerified) {
+    const verificationToken = await generateVerificationToken(
+      existingUser.email
+    );
+    await sendVerificationEmail(email, verificationToken.token);
+    return { success: "Confirmation email sent" };
+  }
 
   try {
     await signIn("credentials", {

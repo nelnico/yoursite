@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { dbProvinces, getValueById } from "@/lib/constants/db-constants";
+import { dbProvinces, getValueById } from "@/lib/constants";
 
 export const ProvidersList = async () => {
   const data = await db.serviceProvider.findMany();
