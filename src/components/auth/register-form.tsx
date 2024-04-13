@@ -6,11 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "../form/form-error";
 import { FormSuccess } from "../form/form-success";
-import { register } from "@/actions/auth-actions";
 import { useState, useTransition } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterFormData, RegisterSchema } from "@/lib/schemas/auth-schemas";
+import { RegisterFormData, RegisterSchema } from "@/schemas/auth-schemas";
 import {
   Form,
   FormControl,
@@ -19,6 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { register } from "@/actions/auth/register";
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -77,7 +77,11 @@ export const RegisterForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="johndoe@gmail.com" />
+                    <Input
+                      autoComplete="username"
+                      {...field}
+                      placeholder="johndoe@gmail.com"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -91,7 +95,12 @@ export const RegisterForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="******" type="password" />
+                    <Input
+                      autoComplete="current-password"
+                      {...field}
+                      placeholder="******"
+                      type="password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

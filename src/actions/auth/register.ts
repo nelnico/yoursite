@@ -1,14 +1,9 @@
 "use server";
+import bcrypt from "bcryptjs";
 
 import db from "@/lib/db";
-import bcrypt from "bcrypt";
 
-import {
-  LoginSchema,
-  LoginFormData,
-  RegisterFormData,
-  RegisterSchema,
-} from "@/lib/schemas/auth-schemas";
+import { RegisterFormData, RegisterSchema } from "@/schemas/auth-schemas";
 import { getUserByEmail } from "@/data/user";
 
 export const register = async (values: RegisterFormData) => {
@@ -44,19 +39,5 @@ export const register = async (values: RegisterFormData) => {
 
   return {
     success: "User created",
-  };
-};
-
-export const login = async (values: LoginFormData) => {
-  const validatedFields = LoginSchema.safeParse(values);
-
-  if (!validatedFields.success) {
-    return {
-      error: "Invalid credentials",
-    };
-  }
-
-  return {
-    success: "Email sent",
   };
 };

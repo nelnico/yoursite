@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginFormData, LoginSchema } from "@/lib/schemas/auth-schemas";
+import { LoginFormData, LoginSchema } from "@/schemas/auth-schemas";
 import {
   Form,
   FormControl,
@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormError } from "../form/form-error";
 import { FormSuccess } from "../form/form-success";
-import { login } from "@/actions/auth-actions";
+import { login } from "@/actions/auth/login";
 
 export const LoginForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -39,8 +39,8 @@ export const LoginForm = () => {
     setSuccess("");
     startTransition(() => {
       login(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
+        setError(data?.error);
+        //setSuccess(data?.success);
       });
     });
   };
@@ -62,7 +62,11 @@ export const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="janedoe@gmail.com" />
+                    <Input
+                      autoComplete="username"
+                      {...field}
+                      placeholder="janedoe@gmail.com"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -76,7 +80,12 @@ export const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="******" type="password" />
+                    <Input
+                      autoComplete="current-password"
+                      {...field}
+                      placeholder="******"
+                      type="password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
