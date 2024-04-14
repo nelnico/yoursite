@@ -22,3 +22,10 @@ export const LoginSchema = z.object({
   }),
 });
 export type LoginFormData = z.infer<typeof LoginSchema>;
+
+export const ResetSchema = z.object({
+  email: z.string().email({
+    message: "Please enter a valid email address",
+  }),
+});
+export type ResetFormData = z.infer<typeof ResetSchema>;
