@@ -5,11 +5,10 @@ export type ExtendedUserMembership = {
   name: string;
   expires: Date;
 };
-}
 
 export type ExtendedUser = DefaultSession["user"] & {
   role: UserRole;
-  membership?:ExtendedUserMembership 
+  membership?: ExtendedUserMembership;
 };
 declare module "next-auth" {
   interface Session {
