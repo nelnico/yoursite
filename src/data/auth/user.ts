@@ -19,6 +19,9 @@ export const getUserById = async (id: string) => {
       where: {
         id,
       },
+      include: {
+        membership: true, // Include the membership relation
+      },
     });
     return user;
   } catch {

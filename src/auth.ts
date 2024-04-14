@@ -5,6 +5,7 @@ import db from "@/lib/db";
 import authConfig from "./auth.config";
 import { getUserById } from "./data/auth/user";
 import { UserRole } from "@prisma/client";
+import { ExtendedUserMembership } from "./types/auth";
 
 export const {
   handlers: { GET, POST },
@@ -44,6 +45,11 @@ export const {
       if (token.role && session.user) {
         session.user.role = token.role as UserRole;
       }
+      if (token.membership) {
+        console.log(token.membership);
+        console.log(token.user);
+        session.user.membership = token.membership as ExtendedUserMembership;
+      }
       return session;
     },
     async jwt({ token }) {
@@ -51,6 +57,12 @@ export const {
       const existingUser = await getUserById(token.sub);
       if (!existingUser) return token;
       token.role = existingUser.role;
+      if (existingUser.membership) {
+        token.membership = {
+          name: existingUser.membership.type,
+          expires: existingUser.membership.endDate,
+        };
+      }
       return token;
     },
   },
