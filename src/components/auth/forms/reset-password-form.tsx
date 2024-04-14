@@ -18,27 +18,35 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "../../form/form-error";
 import { FormSuccess } from "../../form/form-success";
 import { reset } from "@/actions/auth/reset";
-import { ResetFormData, ResetSchema } from "@/schemas/auth/reset-schema";
+import {
+  ResetPasswordFormData,
+  ResetPasswordSchema,
+} from "@/schemas/auth/reset-password-schema";
+import { useSearchParams } from "next/navigation";
+import { resetPassword } from "@/actions/auth/reset-password";
 
-export const ResetForm = () => {
+export const ResetPasswordForm = () => {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<ResetFormData>({
-    resolver: zodResolver(ResetSchema),
+  const form = useForm<ResetPasswordFormData>({
+    resolver: zodResolver(ResetPasswordSchema),
     disabled: isPending,
     defaultValues: {
-      email: "",
+      password: "",
     },
   });
 
-  const onSubmit = (values: ResetFormData) => {
+  const onSubmit = (values: ResetPasswordFormData) => {
     setError("");
     setSuccess("");
+
     startTransition(() => {
-      reset(values).then((data) => {
+      resetPassword(values, token).then((data) => {
         setError(data?.error);
         setSuccess(data?.success);
       });
@@ -47,7 +55,7 @@ export const ResetForm = () => {
 
   return (
     <CardWrapper
-      headerLabel="Forgot your password?"
+      headerLabel="Enter a new password?"
       backButtonLabel="Back to login"
       backButtonHref="/auth/login"
     >
@@ -56,16 +64,16 @@ export const ResetForm = () => {
           <div className="space-y-4">
             <FormField
               control={form.control}
-              name="email"
+              name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
-                      type="email"
-                      autoComplete="username"
+                      type="password"
+                      autoComplete="new-password"
                       {...field}
-                      placeholder="janedoe@gmail.com"
+                      placeholder="******"
                     />
                   </FormControl>
                   <FormMessage />
@@ -76,7 +84,7 @@ export const ResetForm = () => {
           <FormError message={error} />
           <FormSuccess message={success} />
           <Button type="submit" className="w-full">
-            Send reset email
+            Reset Password
           </Button>
         </form>
       </Form>
