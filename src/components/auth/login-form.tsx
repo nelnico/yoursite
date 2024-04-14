@@ -4,7 +4,6 @@ import { useState, useTransition } from "react";
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginFormData, LoginSchema } from "@/schemas/auth-schemas";
 import {
   Form,
   FormControl,
@@ -20,6 +19,7 @@ import { FormSuccess } from "../form/form-success";
 import { login } from "@/actions/auth/login";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { LoginFormData, LoginSchema } from "@/schemas/auth/login-schema";
 export const LoginForm = () => {
   const searchParams = useSearchParams();
 

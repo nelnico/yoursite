@@ -34,9 +34,9 @@ export const getYearsOfBirthForSelectList = () => {
   // Initialize an empty array to store the years
   const yearsArray: number[] = [];
 
-  // Calculate the starting and ending years
+  // Calculate the starting and ending years  (18-80 years old)
   const startYear = currentYear - 80;
-  const endYear = currentYear - 21;
+  const endYear = currentYear - 18;
 
   // Loop through the years in descending order and add them to the array
   for (let year = endYear; year >= startYear; year--) {
@@ -50,7 +50,8 @@ export const getYearsOfBirthForSelectList = () => {
 //      WE AN CHANGE PRIORITY AND NAME
 //      PRIORITY DICTATE THE ORDER THINGS ARE DISPLAYED IN DROPDOWNS FOR INSTANCE
 //      NAME IS WHAT THE USER SEE
-//      DESCRITION UNUSED ... FOR NOW
+//      DESCRIPTION MOSTLY UNUSED ... FOR NOW
+//      KAK PRACTICE I KNOW, BUT SCREW IT...MY HOUSE, MY RULES
 
 export const getDbItemsForSelectList = <T extends DatabaseConstantInfo>(
   dbItems: Record<number, T>

@@ -28,7 +28,7 @@ export const CardWrapper = ({
       <div className="w-full flex flex-col gap-y-4 ">
         <CardHeader className="text-center">
           <h1 className="text-3xl font-semibold">
-            <Link href="/">{siteConfig.name}</Link>
+            <Link href="/">{siteConfig.shortName.toUpperCase()}</Link>
           </h1>
 
           <p className="text-muted-foreground">{headerLabel}</p>

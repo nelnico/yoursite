@@ -1,17 +1,9 @@
 "use server";
 
-import {
-  LoginSchema,
-  ResetFormData,
-  ResetSchema,
-} from "@/schemas/auth-schemas";
-import { AuthError } from "next-auth";
-import {
-  generatePasswordResetToken,
-  generateVerificationToken,
-} from "@/lib/tokens";
-import { getUserByEmail } from "@/data/user";
-import { sendPasswordResetEmail, sendVerificationEmail } from "@/lib/mail";
+import { generatePasswordResetToken } from "@/lib/tokens";
+import { getUserByEmail } from "@/data/auth/user";
+import { sendPasswordResetEmail } from "@/lib/mail";
+import { ResetFormData, ResetSchema } from "@/schemas/auth/reset-schema";
 
 export const reset = async (values: ResetFormData) => {
   const validatedFields = ResetSchema.safeParse(values);

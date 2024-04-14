@@ -4,8 +4,8 @@ import bcrypt from "bcryptjs";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 
-import { LoginSchema } from "@/schemas/auth-schemas";
-import { getUserByEmail } from "./data/user";
+import { getUserByEmail } from "./data/auth/user";
+import { LoginSchema } from "./schemas/auth/login-schema";
 
 export default {
   providers: [

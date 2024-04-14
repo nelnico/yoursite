@@ -4,12 +4,11 @@ import { CardWrapper } from "@/components/auth/card-wrapper";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormError } from "../form/form-error";
-import { FormSuccess } from "../form/form-success";
+import { FormError } from "../../form/form-error";
+import { FormSuccess } from "../../form/form-success";
 import { useState, useTransition } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterFormData, RegisterSchema } from "@/schemas/auth-schemas";
 import {
   Form,
   FormControl,
@@ -19,6 +18,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { register } from "@/actions/auth/register";
+import {
+  RegisterFormData,
+  RegisterSchema,
+} from "@/schemas/auth/register-schema";
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");

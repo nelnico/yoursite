@@ -3,10 +3,13 @@ import bcrypt from "bcryptjs";
 
 import db from "@/lib/db";
 
-import { RegisterFormData, RegisterSchema } from "@/schemas/auth-schemas";
-import { getUserByEmail } from "@/data/user";
+import { getUserByEmail } from "@/data/auth/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
+import {
+  RegisterFormData,
+  RegisterSchema,
+} from "@/schemas/auth/register-schema";
 
 export const register = async (values: RegisterFormData) => {
   const validatedFields = RegisterSchema.safeParse(values);
