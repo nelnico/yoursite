@@ -13,7 +13,7 @@ export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
 };
 
 export const sendVerificationEmail = async (email: string, token: string) => {
-  const confirmLink = `http://localhost:3000/auth/verify?token=${token}`;
+  const confirmLink = `http://localhost:3005/auth/verify?token=${token}`;
 
   const tempEmail = "niconel@gmail.com";
   await resend.emails.send({
@@ -25,7 +25,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 };
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-  const resetLink = `http://localhost:3000/auth/password?token=${token}`;
+  const resetLink = `http://localhost:3005/auth/password?token=${token}`;
 
   const tempEmail = "niconel@gmail.com";
   await resend.emails.send({
