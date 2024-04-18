@@ -6,7 +6,6 @@ import authConfig from "./auth.config";
 import { getUserById } from "./data/auth/user";
 import { UserRole } from "@prisma/client";
 import { ExtendedUserMembership } from "./types/auth";
-import { getTwoFactorConfirmationByUserId } from "./data/auth/two-factor-confirmation";
 import { getAccountByUserId } from "./data/account";
 
 export const {
@@ -38,21 +37,6 @@ export const {
       // Prevent sign in without email verification
       if (!existingUser?.emailVerified) return false;
 
-      if (existingUser.isTwoFactorEnabled) {
-        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
-          existingUser.id
-        );
-
-        if (!twoFactorConfirmation) return false;
-
-        // delete two factor confirmation for next sign in
-        await db.twoFactorConfirmation.delete({
-          where: {
-            id: twoFactorConfirmation.id,
-          },
-        });
-      }
-
       return true;
     },
     async session({ session, token }) {
@@ -67,7 +51,6 @@ export const {
       if (session.user) {
         session.user.name = token.name;
         session.user.email = token.email as string;
-        session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
         session.user.isOAuth = token.isOAuth as boolean;
       }
 
@@ -88,7 +71,6 @@ export const {
       token.role = existingUser.role;
       token.name = existingUser.name;
       token.email = existingUser.email;
-      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
       // todo, we have to update all user properties (membership, blocked, etc)
 
       if (existingUser.membership) {

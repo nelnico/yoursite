@@ -1,12 +1,7 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { FormError } from "../../form/form-error";
-import { FormSuccess } from "../../form/form-success";
 import { useState, useTransition } from "react";
-
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -16,37 +11,56 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { register } from "@/actions/auth/register";
-import {
-  RegisterFormData,
-  RegisterSchema,
-} from "@/schemas/auth/register-schema";
-import { PasswordInput } from "@/components/form/password-input";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { FormError } from "../../form/form-error";
+import { FormSuccess } from "../../form/form-success";
+import { login } from "@/actions/auth/login";
+import { useSearchParams } from "next/navigation";
+import { LoginFormData, LoginSchema } from "@/schemas/auth/login-schema";
+import { PasswordInput } from "../../form/password-input";
 import { Loader2 } from "lucide-react";
-export const RegisterForm = () => {
+
+// TODO: WHEN THE FORM CHANGES, ANY ERROR OR SUCCESS MESSAGES MUST BE REMOVED
+
+export const LoginForm = () => {
+  const searchParams = useSearchParams();
+
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email already in use with different provider"
+      : "";
+
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<RegisterFormData>({
-    resolver: zodResolver(RegisterSchema),
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(LoginSchema),
     disabled: isPending,
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: RegisterFormData) => {
+  const onSubmit = (values: LoginFormData) => {
     setError("");
     setSuccess("");
     startTransition(() => {
-      register(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
-      });
+      login(values)
+        .then((data) => {
+          if (data?.error) {
+            form.reset();
+            setError(data.error);
+          }
+          if (data?.success) {
+            form.reset();
+            setSuccess(data.success);
+          }
+        })
+        .catch(() => setError("Something went wrong"));
     });
   };
 
@@ -56,25 +70,6 @@ export const RegisterForm = () => {
         <div className="space-y-4">
           <FormField
             control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    autoComplete="new-display-name"
-                    placeholder="Unique Display Name"
-                    disabled={isPending}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
@@ -82,9 +77,9 @@ export const RegisterForm = () => {
                 <FormControl>
                   <Input
                     type="email"
-                    autoComplete="new-email-address"
+                    autoComplete="username"
                     {...field}
-                    placeholder="Your email address"
+                    placeholder="janedoe@gmail.com"
                     disabled={isPending}
                   />
                 </FormControl>
@@ -107,7 +102,6 @@ export const RegisterForm = () => {
                     onChange={field.onChange}
                     autoComplete="new-password"
                     disabled={isPending}
-                    placeholder="******"
                   />
                 </FormControl>
                 <FormMessage />
@@ -117,9 +111,9 @@ export const RegisterForm = () => {
         </div>
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {isPending ? "Creating your account" : "Create your account"}
+          {isPending ? "Logging in" : "Log In"}
         </Button>
-        <FormError message={error} />
+        <FormError message={error || urlError} />
         <FormSuccess message={success} />
       </form>
     </Form>

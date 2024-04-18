@@ -9,6 +9,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 
+import logoDark from "@/assets/img/logo-dark.png";
+import logoLight from "@/assets/img/logo-light.png";
+import Image from "next/image";
+
 interface CardWrapperProps {
   children: React.ReactNode;
   headerLabel: string;
@@ -27,11 +31,30 @@ export const CardWrapper = ({
     <Card className="w-[400px] shadow-md">
       <div className="w-full flex flex-col gap-y-4 ">
         <CardHeader className="text-center">
-          <h1 className="text-3xl font-semibold">
-            <Link href="/">{siteConfig.shortName.toUpperCase()}</Link>
-          </h1>
+          <Link
+            href="/"
+            className="flex items-center gap-2 justify-center mb-1"
+          >
+            <Image
+              src={logoLight}
+              alt={`${siteConfig.name} logo`}
+              width={32}
+              height={32}
+              className=" dark:hidden"
+            />
+            <Image
+              src={logoDark}
+              alt={`${siteConfig.name} logo`}
+              width={32}
+              height={32}
+              className=" hidden dark:block"
+            />
 
-          <p className="text-muted-foreground">{headerLabel}</p>
+            <span className="hidden font-bold sm:inline-block text-xl">
+              {siteConfig.name}
+            </span>
+          </Link>
+          <p className="text-muted-foreground ms-8 text-lg  ">{headerLabel}</p>
         </CardHeader>
         <CardContent>{children}</CardContent>
         {showSocial && (

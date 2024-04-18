@@ -17,4 +17,4 @@ const SettingsPage_Server = async () => {
   );
 };
 
-export default SettingsPage;
+export default SettingsPage_Server;

@@ -1,11 +1,9 @@
 import { UserRole } from "@prisma/client";
-import path from "path";
 import * as z from "zod";
 export const SettingsSchema = z
   .object({
     name: z.string().optional(),
-    isTwoFactorEnabled: z.boolean().optional(),
-    role: z.enum([UserRole.ADMIN, UserRole.USER]),
+    role: z.enum([UserRole.ADMIN, UserRole.USER, UserRole.PROVIDER]),
     email: z.string().email().optional(),
     password: z.string().min(6).optional(),
     newPassword: z.string().min(6).optional(),

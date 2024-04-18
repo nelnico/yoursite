@@ -25,7 +25,6 @@ export const settings = async (values: SettingsFormData) => {
     values.email = undefined;
     values.password = undefined;
     values.newPassword = undefined;
-    values.isTwoFactorEnabled = undefined;
   }
 
   // if user is changing email ensure email is not already in use

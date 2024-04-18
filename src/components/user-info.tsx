@@ -32,13 +32,6 @@ export const UserInfo = ({ user, label }: UserInfoProps) => {
           <p className="text-sm font-medium">Role</p>
           <p>{user?.role}</p>
         </div>
-
-        <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-          <p className="text-sm font-medium">Two Factor Authentication</p>
-          <Badge variant={user?.isTwoFactorEnabled ? "default" : "destructive"}>
-            {user?.isTwoFactorEnabled ? "ON" : "OFF"}
-          </Badge>
-        </div>
       </CardContent>
     </Card>
   );

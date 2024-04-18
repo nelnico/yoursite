@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 
 import db from "@/lib/db";
 
-import { getUserByEmail } from "@/data/auth/user";
+import { getUserByEmail, getUserByName } from "@/data/auth/user";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 import {
@@ -22,11 +22,17 @@ export const register = async (values: RegisterFormData) => {
 
   const { email, password, name } = validatedFields.data;
 
-  const existingUser = await getUserByEmail(email);
-
-  if (existingUser) {
+  const existingUserByEmail = await getUserByEmail(email);
+  if (existingUserByEmail) {
     return {
-      error: "Email already in user",
+      error: "Your email is already in use",
+    };
+  }
+
+  const existingUserByName = await getUserByName(email);
+  if (existingUserByName) {
+    return {
+      error: "Your name is already in use",
     };
   }
 
