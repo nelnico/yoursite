@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { BeatLoader } from "react-spinners";
-import { CardWrapper } from "../card-wrapper";
 import { useSearchParams } from "next/navigation";
 import { verify } from "@/actions/auth/verify";
 import { FormError } from "@/components/form/form-error";
@@ -35,17 +34,10 @@ export const VerifyForm = () => {
   }, [onSubmit]);
 
   return (
-    <CardWrapper
-      headerLabel="Confirming your verification"
-      backButtonLabel="Back to login"
-      backButtonHref="/auth/login"
-      showSocial
-    >
-      <div className="flex items-center w-full justify-center">
-        {!success && !error && <BeatLoader color="white" />}
-        <FormSuccess message={success} />
-        <FormError message={error} />
-      </div>
-    </CardWrapper>
+    <div className="flex items-center w-full justify-center">
+      {!success && !error && <BeatLoader color="white" />}
+      <FormSuccess message={success} />
+      <FormError message={error} />
+    </div>
   );
 };

@@ -20,9 +20,9 @@ const AdminPage = () => {
   const onApiRouteClick = () => {
     fetch("/api/admin").then((response) => {
       if (response.ok) {
-        toast.success("SUCCESS");
+        toast.success("Allowed API Call");
       } else {
-        toast.error("FORBIDDEN");
+        toast.error("Forbidden API Call");
       }
     });
   };

@@ -30,7 +30,8 @@ export const CardWrapper = ({
   return (
     <Card className="w-[400px] shadow-md">
       <div className="w-full flex flex-col gap-y-4 ">
-        <CardHeader className="text-center">
+        <CardHeader className="text-center relative">
+          <div className="absolute top-0 right-0"></div>
           <Link
             href="/"
             className="flex items-center gap-2 justify-center mb-1"
